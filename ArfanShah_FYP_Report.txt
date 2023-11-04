@@ -1,0 +1,512 @@
+An Efficient Machine Learning and Image Processing Based Methodology for Tomato Leaf Disease Detection and Classification
+
+
+
+
+
+    By Arfan Shah
+In partial fulfilment of the requirement for the degree Bachelor of Science in Computer Science
+
+
+
+
+
+
+
+
+
+Department of Computer Science, School of Arts & Science University of Central Asia, Naryn campus, Kyrgyz republic (2023)
+
+DECLARATION BY AUTHOR
+
+I/we certify that this work has not been accepted in substance for any degree and is not concurrently being submitted for any degree other than that of Bachelor of Science in Computer Science being studied at the Department of Computer Science, School of Arts & Science, University of Central Asia, Kyrgyz Republic. I/we also declare that this work is the result of my/our own findings and investigations except where otherwise identified by references and that I/we have not plagiarized another’s work.
+                                                                              
+                           
+
+
+Arfan Shah
+
+
+
+
+
+
+DECLARATION BY SUPERVISOR
+
+I, the undersigned hereby certify that I have read this project report and finally approve it with recommendation that this report may be submitted by the authors above to the final year project evaluation committee for final evaluation and presentation, in partial fulfillment of the requirements for the degree of Bachelor of Science in Computer Science at the Department of Computer Science, School of Arts & Sciences, University of Central Asia, Kyrgyz Republic.
+
+
+
+Dr. Muhammad Fayaz
+
+ABSTRACT
+      The world is facing food crises and the situation in developing countries is getting worst day by day. People do not get enough food, which raises questions about their health. Fruits and vegetables are a major source of food in various regions, especially in developing countries. Diseases in fruits and vegetables result in reduction of food. To increase the production of fruits and vegetables, farmers should be able to identify the disease in time to avoid further damage. This research aims to identify and detect diseases in tomato leaves using Image Processing and Machine Learning techniques. There are six stages from the beginning to the end of this research. The stages include image acquisition, pre-processing, image segmentation, feature extraction, classification, and disease identification. Image acquisition includes taking a large dataset which contains 40, 000 images. Image cropping, image resizing, and image enhancement are used to pre-process the images. For image segmentation various segmentation algorithms are used, such as Edge Based Segmentation and Region-Based Segmentation. Gray Level Co-occurrence Matrix (GLCM) is utilized for feature extraction. Support Vector Machine (SVM), K-Nearest Neighbor (KNN), Random Forest, Decision Tree, Logistic Regression, Artificial Neural Network (ANN), Convolutional Neural Network (CNN), and Naïve Bayes have been used for classification. Two types of classifications are being performed: binary and multi-class classification. Diseases in multi-class classification include healthy leaf, early blight, late blight, bacterial spot, leaf mold, mosaic virus, spider mites, target spot, yellow leaf, and Septoria leaf spot. KNN gives the best result of 96.19 % accuracy followed by Decision Tree with an accuracy of 93.12 %.
+Keywords: Tomato leaf disease, Leaf disease, Image Processing, Machine Learning.
+
+ACKNOWLEDGEMENTS
+     In this research I have received a generous support from my supervisor Dr. Muhammad Fayaz. I would like to say thank you for the support. In addition, I would also like to express my gratitude to my friends who helped me in this project. 
+CONTENTS
+
+Table of Contents
+ABSTRACT	3
+CHAPTER 1: INTRODUCTION	8
+CHAPTER 2: LITERATURE REVIEW	10
+CHAPTER 4: PROPOSED METHODOLOGY	17
+3.1 PREPROCESSING	19
+3.1.1 Filters:	19
+3.2 IMAGE ENHANCEMENT	22
+3.3 IMAGE SEGMENTATION	22
+3.4 FEATUER EXTRACTION	22
+3.5 CLASSIFICATION	24
+3.5.1 Decision Tree	26
+3.5.2 Random Forest:	26
+3.3.3	k-NN:	26
+CHAPTER 5: SIMILAR APPLICATION COMPARISON TABLE	39
+CHAPTER 6: NOVELTY OF THIS RESEARCH	39
+
+
+List of Tables:
+
+Table 1.1 Abbreviation and their description	12
+Table 4.1 Details of Parameters for each Classifier	28
+Table 4.2 Performance Metrics of each Classifier on Testing and Training Dataset	29
+Table 4.3 Ranking of Classifiers based on Accuracy measure for Testing Dataset	37
+Table 4.4 Ranking of Classifiers based on Accuracy measure for Training Dataset	37
+Table 4.5 Classification accuracy of proposed method along with other well-known methods	38
+
+List of Figures:
+Figure 3.1 Abstract model of the proposed methodology	17
+Figure 3.2 Detail Conceptual diagram of the proposed work.	18
+Figure 3.3 Detailed diagram for preprocessing stage	19
+Figure 3.4	a) First derivative profile	b) Second derivative profile	20
+Figure 3.5 Prewitt masks a) horizontal and b) vertical edges	20
+Figure 3.6 Laplacian Masks	21
+Figure 3.7 The original image with the corresponding filtered images	21
+Figure 3.8 Log transformed and Contrast Stretched Images	22
+Figure 3.9 Structural Diagram for Feature Extraction Stage	23
+Figure 3.10 Structural Diagram for Classification Stage	25
+Figure 4.1 Confusion Matrix of ANN for Training Dataset	30
+Figure 4.2 Confusion Matrix of ANN for Testing Dataset	31
+Figure 4.3. Graphical Representation of Performance Metrics for ANN	31
+Figure 4.4 Confusion Matrix of DT for Training Dataset	31
+Figure 4.5 Confusion Matrix of DT for Testing Dataset	32
+Figure 4.6 Graphical Representation of Performance Metrics for DT	32
+Figure 4.7 Confusion Matrix of k-NN for Training Dataset	32
+Figure 4.8 Graphical Representation of Performance Metrics for k-NN	33
+Figure 4.9  Confusion Matrix of k-NN for Testing Dataset	33
+Figure 4.10  Confusion Matrix of NB for Training Dataset	33
+Figure 4.11  Confusion Matrix of NB for Testing Dataset	34
+Figure 4.12 Graphical Representation of Performance Metrics for NB	34
+Figure 4.13  Confusion Matrix of RF for Training Dataset	35
+Figure 4.14  Confusion Matrix of RF for Testing Dataset	35
+Figure 4.15 Graphical Representation of Performance Metrics for RF	35
+Figure 4.16  Confusion Matrix of SVM for Training Dataset	36
+Figure 4.17  Confusion Matrix of SVM for Testing Dataset	36
+Figure 4.18 Graphical Representation of Performance Metrics for SVM	36
+Figure 4.19 Graphical Representation of Ranking of the Models	37
+
+CHAPTER 1: INTRODUCTION
+   Food is one of the most basic needs of human being. Humans eat to survive. As population of the earth increases, food demand also increases and to fulfill the demand, the growth and production of eatables must also increase. The issue of malnutrition is common in developing countries, such as Pakistan, Kyrgyzstan, Tajikistan etc. According to United Nations approximately 37.5 million people in Pakistan are suffering from food crises (Imam, March 9, 2022). In Kyrgyzstan almost 12 percent of children are affected by malnutrition (Kopytin, June 25, 2022). According to United Nations International Children’s Emergency Fund (UNICEF), in Tajikistan more than 8 percent of children are affected by lack of food (Ruziev, 2019). Most of the population suffering from lack of food in the mentioned countries belong to its mountainous regions where there is lack of facilities. This research is focused specifically on the mountainous regions of the mentioned countries. This research aims to detect the leaf diseases of various fruits while focusing on tomato in the beginning. In long term this research will work on detecting leaf disease of other fruits and vegetables which grow in the mountainous regions of Pakistan, Kyrgyzstan, Tajikistan, Kazakhstan, and other Central Asian countries.
+   This research proposes various Image Processing and Machine Learning techniques to detect leaf disease in plants. The research primarily focuses on tomato leaf diseases and in the long run it aims to detect leaf diseases in all sorts of plants. The topic chosen for this research is unique and noble in Central Asian countries especially in Kyrgyzstan and Tajikistan. Most of the people belonging to mountainous areas like Gilgit-Baltistan are dependent on the fruits and vegetables they produce at home. The people belonging to remote regions cannot afford to buy everything from shops. It is convenient for them to grow vegetables and fruits at their homes. This will not only fulfill their own demands, rather they can sell and earn some money. The production of fruits and vegetables can be affected negatively due to various diseases. Yearly farmers suffer from the losses which occur due to plant diseases. If these diseases are identified at early stages, then curing it will be easy. Which can help to enhance vegetable and fruits production. Due to the lack of facilities farmers belonging to these remote regions suffer a lot from plant diseases. For instance, if tomatoes have some sort of disease, farmers cannot find a doctor in villages who can cure it. They cannot afford to go to the city or call a doctor from the city. To solve this issue, this paper proposes a simple solution using Machine Learning and Image Processing. The farmer can take a picture from the leaf and send it to the database. The database will sort out the disease and will send back a notification with the disease and its remedy. The research aims to build a simple interface which can be easily used by common farmers. If time permits the research aims to build an app which can be run in both mobile and on web.
+   Various datasets would be used in this research. A dataset taken from Kaggle will be used for the training purpose. Another dataset used in this research is collected by some researchers at the University of Malakand, Pakistan. This dataset will be used for both training and testing purposes. Moreover, a local dataset collected from Gilgit-Baltistan, Pakistan may also be used for testing purpose.
+NotationDescriptionKNNK-Nearest NeighborCNNConvolutional Neural NetworkDTDecision TreeANNArtificial Neural NetworkXGBoostExtreme Gradient BoostRMSRoot Mean SquareSVMSupport Vector MachineMAEMean Absolute ErrorRMSERoot Mean Square Error
+
+
+
+
+	
+	CHAPTER 2: LITERATURE REVIEW
+   (Rahman et al., August 24, 2022) apply Image Processing methods to detect and treatment of diseases in tomato leaves. They have applied Support Vector Machine for classification of diseases. They collected images of healthy, early blight, late blight, and Septoria. The labelled image dataset is trained and tested using Image Processing techniques. The model achieved an accuracy of 100 percent for healthy leaves, 95 percent for early blight, 90 percent for Septoria, and 85 percent for late blight. They first collected images from local tomato plants in Dir region of Pakistan. They have made a simple android app named Leaf Disease Identifier (LDI). User can take a pic from the tomato plant and upload it into LDI. LDI sent an image to its database, and it identifies the disease, and it sends back a notification with remedy for the disease. (Dr. Sarojadevi and Nagamani, 2022) published a research paper on detection of disease in tomatoes using deep learning. They have categorized tomato leaf diseases into six categories. They have applied three different Machine Learning algorithms, such as Fuzzy Support Vector Machine (Fuzzy-SVM), Convolutional Neural Network (CNN), and Region-based Convolutional Neural Network (RCNN). In order to train the images, they used color thresholding, image scaling, gradient local ternary patterns, flood filing approaches, and Zernike moments. R-CNN is used to classify images into different categories of diseases. Fuzzy-SVM and CNN are also used for diseases classification. Results of all three classifiers are compared and picked R-CNN which performed best by giving an accuracy of 96.735%.
+   
+   (Chowdhury et al., April 30, 2021) apply some state-of-the-art techniques based on Convolutional Neural Network (CNN) to detect tomato leaf disease. They have collected 18,162 images of tomatoes including healthy and affected images. The researchers first classified tomato leaves into healthy or unhealthy (binary classification) and then they categorized the leaves into 6 groups (healthy and different types of unhealthy leaves), and later they also classified into ten classes (healthy and various sorts of unhealthy diseases). They have applied various CNN algorithms, such as ResNet18, MobileNet, DenseNet201, and InceptionV3. InceptionV3 performed best with an accuracy of 99.2% on binary classification while DenseNet201 achieved an accuracy of 97.99% for six class classification and 98.05% accuracy for ten-class classification. (Kirange and Gadade, February 2020) build a module which automatically detects diseases in plant leaves. For feature extraction, they have used GLCM, Gabor and SURF. To classify disease, they have used various algorithms, such as Support Vector Machine (SVM), K-Nearest Neighbor (KNN), and Naïve Bayes. For this project they have used 500 images of tomato leaves with seven different diseases symptoms. The results showed that Gabor performed well for feature extraction while SVM outperformed in classifying disease.
+   (Dr. Sreelatha et al., 2021) have developed and designed a computer vision model which helps to build a system for image detection, feature extraction, and classification in real-time. They have used Deep Neural Network (DNN) to classify tomato images in real-time. They found that rates of classification increased compared to the existing models. (Trivedi et al., November 30, 2021) use Convolutional Neural Network (CNN) to effectively find and classify leaf diseases in tomato plants. They have used Google Colab throughout the experiment. They have collected 3000 images of tomato leaves and the images include a healthy leaf along with nine different diseases. They first pre-processed the images and the targeted regions are separated from the original images. Secondly, the images are further processed by using various hyper-parameters of CNN. Lastly, various characteristics, such as color, texture, edge etc are extracted using CNN. The results showed that the model achieved an accuracy of 98.49%.
+   (Shoaib et al., October 07, 2022) propose a model based on deep learning to detect leaf disease in tomatoes. The model is trained over 18,161 segmented and non-segmented images using various deep learning and Convolutional Neural Network (CNN) techniques. Two state-of-the-art: U-Net and Modified U-Net are used for detection and segmentation of regions of affected leaves. They have made two classes: six-level classification (one healthy and five different diseases) and ten-level classification (one healthy and nine various diseases). The modified U-Net segmentation performed well with an accuracy of 98.66 percent compared to other techniques used. InceptionNet1 achieved an accuracy of 99.12% for six-class classification. The results showed that the proposed model outperformed compared to the existing models. (Khasawnch, Faouri, and Fraiwan, August 24, 2022) apply deep transfer learning to find and classify nine different diseases in tomato plants. In this model they have used leaf images as an input that is given to CNN model for classification. Interestingly they have not done any pre-processing, feature extraction, or image processing. Models used in this research are based on the techniques of transfer learning of deep learning networks. The experiments in this research are repeated ten times to counter randomness. The results in this research are 99.3% precision, 99.2% F1 score, 99.1% recall, and 99.4% accuracy.
+   (Mohanty, Hughes, and Salathe, September 22, 2016) use 54,306 public images to classify disease prone and healthy leaves which have been collected under controlled conditions. These images are used for training purposes using Convolutional Neural Network. Fourteen different crop species are used twenty-six various diseases are identified. The trained model achieved an accuracy of 99.35%. (Geetha et al., 2020) use four different stages to detect the type of disease in tomato plants’ leaves. The four stages are pre-processing, image segmentation, feature extraction, and classification. Image segmentation is used to detect damaged or affected parts of leaf and pre-processing is used to remove noise. For classification and regression purposes, supervised Machine Learning algorithm, K-Nearest Neighbor (KNN), is used. The research also proposes remedy after detecting the disease in plants’ leaves. (Andrew et al., October 03, 2021) used pre trained models based on Convolutional Neural Networks (CNN) for disease identification in plant leaves. Fine tuning of hyperparameters has been done for some popular pre-trained models, such as InceptionV4, ResNet-50, DenseNet-121, and VGG-16. A popular plant dataset from village having 54,305 is utilized for this research. Images are taken from various plant species and diseases are classified into 38 different classes. The research showed that DenseNet-121 outperformed with an accuracy of 99.81%. (Kulkarni et al., November 22, 2021) use a smart and efficient technique for plant disease detection based on Computer Vision and Machine Learning at Cornell University. The model is trained to classify 20 different diseases in five common plants. The model achieved an accuracy of 93%.
+
+CHAPTER 3: PROPOSED METHODOLOGY
+   This proposed research work consists of six different steps. First, images are being collected from various sources, then the dataset is being pre-processed. After that image enhancement and image segmentation is done. Then features are extracted and then finally the images are classified. The whole methodology is shown is shown below in Figure 3.1
+   
+Figure 3.1 Model showing methodology
+
+    Below is a brief description of all the work which will be done in this project. It starts from image acquisition and ends at the classification of image using various Machine Learning algorithms. All the steps are shown below in figure 3.2.
+    
+
+
+Figure 3.2 Diagram to show all the work.
+
+3.1 PREPROCESSING
+   Pre-processing is the first step in both machine learning and image processing techniques. Before applying machine learning models, the data should be cleaned so that the predictions should be accurate and precise. In machine learning pre-processing refers to handling missing values, removing extra columns, changing string values to numbers etc. Preprocessing in image processing refers to the steps that are performed on an image before it is fed into an algorithm or model for prediction of results. The goal of preprocessing is to prepare the image for analysis by making it more suitable for the specific task at hand. Preprocessing can be an important step in the image processing pipeline, as it can help to improve the performance of downstream tasks and algorithms. Preprocessing techniques can be applied individually or in combination, depending on the specific needs of the task at hand. 
+   In this paper different filters have been used to transform images so that useful information can be extracted. Filtering is usually referred to as the heart of image processing. Various filters are applied on images to enhance their quality which helps to extract the desired information in the digital image. Basically, filter is a k-by-k dimensional matrix which is applied on n-by-m dimension matrix. Usually, these filters are of two-dimensional matrices. These filters are used to remove noise and other impurities from digital images. Just like water filters filter the impurities in the water, these filter noise and impurities in the digital image. There are two types of filters: linear filters and non-linear filters. Linear filter works by following a linear function and non-linear filters work based on the non-linear functions in mathematics. The following filters have been used:
+
+
+3.1.1 Mean Filter:
+   A mean filter is a linear filter which works by following the procedures of linear functions. It is helpful in making images smooth and enhance their quality. The primary function of the mean filter is reducing noise in the images. The other function of mean filter is to enhance the quality of image by brightening the image pixels. The mean filters used in this project are 3-by-3, 5-by-by5, and 7-by-7. And the 5-by-5 mean filter gave the best results. Now let's have a look how mean filter works:
+   
+   As we can see from the pictures above, a matrix representing an image is being multiplied by a matrix of mean filter and the result is displayed in the third matrix. Basically, mean filter multiplies each entry with the respective pixel value in the image and then takes average of all and adds that average into the resulting matrix.
+   Advantages of Mean Filer:
+i. The primary function and benefit of the mean filter is to remove noise from images.
+ii. The second benefit of mean filter is that it enhances the image quality by making the image brighter.
+      Disadvantages of Mean Filter:
+      While smoothing the image, the mean filter blurs the edges of the image which makes the overall image blur. Moreover, mean filter also reduces the resolution of small objects in the images.
+   Below in the figure 3.1.1 shows the image after applying a mean filter.
+   
+Figure 3.1.1 Original image: left side and Mean filter: right side.
+
+In the above figure it can be seen that the left side image is the original image without application of the mean filter and in the right-side image is taken after applying mean filter to the same image. The image on the right side is blurred after applying a mean filter. Mean filter is applied on all the images to get better results.
+3.1.2 Median Filter
+      Median filter is a type of non-linear filter which works following the rules of non-linear function. This filter also enhances the quality of images by applying smoothness to the images. A 3-by-3 filter is applied on the images used for this project. As we had discussed in the previous portion, that mean filter can make the edges blur in images. Median filter tries to solve this problem by making the edges sharp. So, this filter is useful to correct the side effects done after applying mean filter. Let's depict the working procedure of median filter using a diagram.
+       
+      In the above diagram, a 3-by-3 median filter has been applied on an image matrix of 6-by-6. The 3-by-3 mask is applied sequentially as shown in the above figure. First the mask is applied to the first 3-by-3 portion of the image matrix and then the matrix is converted into one dimensional array and then it is sorted in ascending order. The array can also be sorted into descending order. After sorting the middle value is taken and is placed in the first place of the output matrix. This procedure is repeated until the end and the resulting image will be an image after applying median filter. 
+      Advantages of Median Filter:
+1. This filter helps to remove salt and pepper noise from the image.
+2. Median filter also helps to sharpen the edges in the image. 
+      Below in figure 3.1.3 shows the results after applying median filter.
+
+Figure 3.1.3 Original image: left side and Median filter: right side.
+
+3.1.3 Min Filter
+Min filter is another mask used to purify the image and enhance its quality. The primary function of the Min filter is to enhance the darker points in the image. In simple words, it enhances the pixel values having less values. This filter darkens the darker points which helps to identify the regions in an image which are different or darker than other regions in an image. Below is the image after applying Min filter.
+
+It can be seen from the above image that there are small square boxes which are darker than other areas. This filter works by using a two-dimensional mask which is applied on the image matrix. The minimum value from the mask matrix is used in the final transformed matrix. The usage of minimum pixel value makes the portion darker.
+3.1.4 Max Filter
+Max filter is another useful filter which is used to improve image quality in order to extract the desired features. This filter is quite the opposite of Min filter discussed in the above section. Max filter usually brightens some portions of the image. It does this job by enhancing the bright points in the image. In simple words this filter enhances the pixels values which are higher in number. Below is the image received after applying Max filter.
+
+It can be seen from the above image that some portions in the image are lightning like stars in the sky. This filter works in a similar way, but the difference is that here the maximum pixel value is taken instead of the minimum value, which makes the portions brighter than other regions in the image.
+
+
+
+
+
+
+
+
+
+
+
+
+3.1.5 Feature Scaling
+Feature scaling is one of the most critical and essential stages while cleaning and pre-processing the data. This method is not applied to images, rather it is applied to the features extracted after cleaning the data. Feature scaling can help to achieve better results while applying Machine Learning algorithms. There are many feature scaling techniques, Normalization and Standardization are used in this research project. A brief description about both methods is discussed below:
+Normalization:
+Normalization is referred to as bringing all the values in the dataset or training dataset to a specific range usually from 0 to 1 or from –1 to 1. As there can be values belonging to different ranges in the dataset, bringing them all to one range makes the data normal. This helps to improve the accuracy of the model. The accuracy is affected if the values do not have a similar range like if a feature has a range from 0 to 255 and another has range from 1 to 50 then the model does not get trained properly. When all the values are normalized to a specific range then the model gets trained in a better way, hence it improves the overall accuracy of the model. Below is the formula for normalizing the values.
+Standardization
+This is another useful technique to scale the values in the dataset. The primary aim of this technique is to bring all the values in the dataset near to the mean. This method works in a way that the mean becomes 0 and the standard deviation becomes 1. All other values are scaled accordingly. 
+3.2 IMAGE ENHANCEMENT
+Image enhancement is referred to as a technique to increase the quality of an image in Image Processing. The filters applied in the pre-processing part, where the effects of those filters have been discussed. Some of the filters have side effects such as blurring edges in the images. Image enhancement techniques are being applied to decrease the side effects which are caused in the pre-processing part. Mean and median filters have been applied in the previous section which left some of the undesired features in the processed images. Image enhancement can also help to further reduce any other noise present in images. Furthermore, this technique is also valuable to further brighten and sharpen the images which is very useful to extract the desired features from the images. Below are some of the image enhancement techniques used in this project.
+3.2.1 Image Inverse:
+Image inverse transformation is a technique used to improve the overall quality of an image. This technique is also known as image negation. Image inverse transformation works by inverting all the pixels present in an image. This simply means that by using this technique the brighter pixel values can be converted into darker and darker pixel values can be converted into brighter pixels by simply negating them or taking inverse of all the pixels in an image. The following formula is used to in this technique:
+inverse = 1 – pixel value
+In the above formula inverse is the output after applying the function. 1 is the constant and pixel value is the single value of each pixel in an image. This technique is used in this project to brighten the areas which are used to extract the required features from all the images. While implementing this technique first, all the pixel values are normalized between 0 and 1 and then each pixel is subtracted from 1 to inverse the value.
+Benefits of Image Inverse Transformation:
+i. This technique is helpful to enhance contrast in the images as usually the original images have low contrast by default.
+ii. This technique helps to highlight the desired features in the image.
+      Below in figure 3.2.1 shows an image after applying image inverse.
+
+Figure 3.2.1 Original image: left side and Image inverse: right side.
+
+In the above figure the left picture is the original image, or the image obtained after pre-processing the image. It is clearly visible from the figure that contrast has been applied to the image shown on the right side. The darker parts of the original image have been converted into brighter parts.
+3.2.2 Log Transformation
+Log transformation or logarithmic transformation is another method to improve the quality of an image. It helps to normalize the negative effects obtained in the pre-processing stage. In this method all the pixel values are replaced with their logarithmic values. In this technique all the dark pixels are being expanded when compared with the higher pixel values in the image. The logarithmic function applied in this technique compresses the range of pixel values. By doing this it enhances the contrast in the image. Here is the mathematical formula used to calculate log transformation:
+output = c * log(1 + input)
+      where "input" is the original pixel value, "output" is the transformed pixel value, and "c" is a constant that controls the amount of contrast enhancement. A larger value of "c" results in more contrast enhancement. To apply a log transformation to an image, the pixel values of the image are first normalized to a range of 0 to 1. Then, the logarithmic function is applied to each pixel value, and the transformed pixel values are mapped back to the original pixel range of the image. In figure 3.2.2 the result after applying log transformation is shown.
+
+Figure 3.2.2 Image after log transformation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3.3 IMAGE SEGMENTATION
+      Image segmentation is the method to divide an image into multiple parts or regions which represent different objects in an image. These parts or the regions are called segments and these segments are the portions which have pixel values sharing similar characteristics. The primary purpose of image segmentation is to find regions which are important to feature extraction and those regions can be very helpful to extract features and later can be used to train and test machine learning models. In this method, important and unique regions on an image are selected and used for further processing. There are many techniques are image segmentation such as Otsu segmentation, Watershed segmentation etc. But in this project, after trial-and-error method Otsu segmentation is being used as it gave the best results.
+3.3.1 Otsu Segmentation:
+Otsu segmentation is considered one of the best techniques for image segmentation. This method was proposed by Nobuyuki Otsu in 1979. This technique works by finding the threshold value that can show a clear difference or variance between two regions in an image. It creates a large difference between the pixel values of the regions which are different from each other. This technique is very helpful to distinguish between different regions as it maximizes the difference in the pixel values. Different groups are created and the one having the best threshold is taken as the Otsu threshold and it is used for Otsu segmentation. The groups are calculated using the following mathematical formulas:
+Vwithin = Pb (t)Vb + Pf (t)Vf
+      In the above equation Vwithin is the variance within the groups and Pb is the probability of background, t is the threshold value, Vb is the background variance, Pf is the probability of foreground, and Vf is the variance of foreground. Consider another formula:
+Vinbetween  = V - Vwithin = Pb Pf (mb - mf)2  
+      Here Vinbetween is the variance between the groups. In Otsu the variance between the groups and within the groups is continuously calculated for different threshold values. The threshold value that maximizes the variance between the groups and minimizes the variance within the groups is taken and called as the threshold of Otsu. 
+ Figure 3.3.1 shows the result after applying Otsu segmentation.
+
+Figure 3.3.1 Image after Otsu Segmentation.
+
+In the above figure it can be seen that there are many segments which are having difference in the intensities of pixel values. The divisions or the variance among the regions can be seen clearly.
+	Apart from using the Otsu method for image segmentation, Watershed segmentation is also used. The reason behind mentioning this method is to show that sometimes some techniques do not work. For instance, watershed technique is used here, but it did not give good results. Sometimes using one technique negates the other technique’s results and then the whole image just disappears. Figure 3.3.2 shows the result after applying watershed segmentation.
+
+Figure 3.3.2 Image after Watershed Segmentation.
+In the above figure it is visible that the image has disappeared due to the negation of filters and methods applied for segmentation. The methods or filters cancel each other’s effects resulting in a dark image as shown above. So, it is advised to use the filters and methods properly to avoid such consequences. Watershed segmentation is not used on the final images from the features are extracted. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3.4 FEATURE EXTRACTION
+      Feature extraction is the process of extracting relevant information or features from an image. Features are extracted in order to analyze or classify the image and later predict the output of the image. The goal of feature extraction is to identify and extract the most important or distinctive aspects of the image, while ignoring irrelevant or redundant information. In order to extract the reasonable and useful features two different methodologies are used in this project. 
+      The first methodology used in this research is using various filters to extract the desired features from the images. Though this is not an efficient method but trying it was a good idea. Over all 37 features have been extracted from each image using filters such as Gabor, Roberts, Sobel, Prewitt, and Canny. Here is a brief description of all the filters mentioned.
+      Gabor filter is a linear filter used in Image Processing to extract useful features from an image. These features are later used for classification and prediction purposes. Gabor filter is helpful in highlighting the edges and textures in an image which are very useful for feature extraction.
+      Roberts filter is famous for edge detection. It calculates horizonal and vertical edges of the image using a 2-by-2 kernel. This filter finds adjacent pixels difference which are present diagonally.
+      Sobel filter is another useful filter to extract features. This filter is also famous for edge detection in an image. This filter finds the edge between two separate portions in an image. 
+      Prewitt filter is also famous for edge detection in an image. This filter also finds the difference between groups of similar pixel values and makes a distinction between them. This helps to extract the features which are later used for image classification.
+      Canny filter is a popular edge detecting filter which separates portions based on the difference in pixels intensity. It is quite accurate and robust, that’s why it is widely used today as well. Below is the picture after applying Canny filter. It can be seen from figure 3.4.1 that the filter tried to make portions based on the intensity of pixel values.  
+
+Figure 3.4.1 Image after Canny feature extractor.
+The methodology discussed above should be checked before usage as it did not work properly in this research. The features extracted using this method gave very bad accuracy and precision for most of the Machine Learning algorithms. The drawback of this method will be discussed in the upcoming sections.
+The second method used to extract features is Gray-Level-Co-occurrence Matrix (GLCM). The features extracted using GLCM are also known as statistical features. GLCM tells about the gray level distribution in an image. The features extracted are Mean, Root Mean Square, Median, Variance, Standard Deviation, Skewness, Kurtosis, Contrast, Entropy, Energy, homogeneity, Correlation, Inverse Difference Moment (IDM), and Smoothness. Fourteen different features have been extracted for all the three channels: red, green, and blue. Together there are 42 features which are extracted for each processed image and then stored in comma separated value (csv) file. In the table below all the fourteen features and their mathematics formulas are given.
+
+
+
+
+
+
+Mean(?ni=1 Xi)/n   
+Root Mean Square (RMS)MedianVarianceStandard DeviationSkewnessKurtosisContrastEntropyEnergyHomogeneityCorrelationInverse Difference Moment (IDM)Smoothness      A brief discussion about all the features will be very helpful, so let's discuss them briefly.
+      Mean is the summation of all the pixel values of the processed image and then divided by the number of pixel values. In this way a unique number will be achieved for each image, and it will be its uniqueness.
+      Root Mean Square (RMS) is a measure of how fit an estimator is to the data. In simple words it is the square root of the meaning of the sum of squares of the pixel values in an image.
+      Median is the value which is in between. First the image matrix is converted into one dimensional array and then it is sorted and then the middle pixel value is taken.
+      Variance is the measure of spread between pixel values in an image. This actually calculate how spread the pixel values are in an image.
+      Standard deviation is a measure of variation in pixel values in an image. It is the square root of variance.
+      Skewness is the measure of asymmetry in pixel values in an image.
+      Kurtosis is the measure of how often outliers can occur in a distribution of pixel values in an image.
+      Contrast is the measure of variation that exists in different portions of the image segments in an image.
+      Entropy is the measure of randomness in an image which can be characterized by the texture of the image.
+      Energy is the measure of the change in the magnitude and brightness of pixel values in an image.
+      Correlation is the measure of commonness in pixel distance in an image.
+      Homogeneity is the measure of the similarity among the group of pixel values in an image.
+      Inverse Difference Moment is the measure of similarity or local homogeneity.
+      Smoothness is used to sharpen the image and to reduce unnecessary noise from the image. It also helps to improve the quality of an image.
+The 42 features are extracted for each image and then stored in a comma separated value (csv) file and it has been used for classification and disease identification.
+
+
+
+
+
+
+
+3.5 Data Labelling
+After pre-processing, image enhancement, image segmentation, and feature extraction, all the data is saved in a csv file. It is further cleaned and made it ready to use for classification and diseases identification using Machine learning techniques.
+Data labelling is the process of labelling the target variable. It can be done manually or automatically. For this research it is done manually to avoid any sort of technical mistakes. All the healthy tomato images are labelled as 0 and non-healthy images are labelled as 1 in the target output. First, these values are saved in excel file and later they are converted into csv file and then merged with data received after feature extraction. The labelled data is the last column in the dataset as it is the target variable. The labelling is done by putting both healthy and unhealthy images to avoid any mistakes. It is done by first putting some unhealthy images then labelling them as 1 and then putting some healthy images and labelling them as 0. This method is repeated until the target size of the dataset is achieved. This method is used in order to ensure fair representation of both healthy and unhealthy images. The target column in the final dataset is labelled as “Label”. The figure below shows the labelling procedure.
+
+ImageLabelHealthy0Unhealthy1
+
+
+
+
+
+
+
+
+
+3.6 CLASSIFICATION
+This is 	the last stage of this research where the pre-processed, improved, cleaned, and labelled data is used for disease classification and disease identification. This research project implemented several state-of-the-art Machine Learning techniques to classify and identify the disease. The algorithms used in this research project are K-Nearest Neighbor, Decision Tree, Artificial Neural Network, Convolutional Neural Network, Support Vector Machine, Naïve Bayes, and Random Forest.
+3.6.1 K-Nearest Neighbor
+K-Nearest Neighbor is one of the most popular classifiers. It is usually used for binary classification. This classifier gives the best results for binary classification. This is an easy and simple supervised machine learning algorithm. Supervised machine learning algorithms are the algorithms where the data is trained using labelled data. In simple words it means that the classifier is being trained by giving the input and output at the time of training and later tested by just giving the input. The classifier then predicts the output.
+The working mechanism of KNN is quite simple as it creates groups or neighbors by following the distance formula. KNN classifier makes different groups based on the distance between the elements in the groups. It calculates the distance between two elements and then puts them in one group. It repeats this procedure until it reaches a favorable conclusion. Finding the best neighbors is quite a complex and cumbersome job. If the right number of neighbors are found, the accuracy of the classifier gets better. In this project the neighbors are found while iterating using loop. Have a look at the figure below:
+
+The number of neighbors is represented in the x-axis and the y-axis represents the error. This method finds the number of neighbors and the error associated with it. It can be seen from the graph that when the number of neighbors is less than the error is also less. For instance, when one neighbor is selected the error is less than 0.1 which is minimum error. So, the number of neighbors chosen in this project is one. The accuracy while taking one neighbor is 96.19 % which is very good.
+      3.6.2 Decision Tree
+      Decision Tree is also widely used for classification purposes. This classifier also falls under the category of supervised machine learning algorithms. Decision Tree is a hierarchical classifier which uses a tree-like model to classify the output. This classifier is both for both regression and classification. In this project classification Decision Tree is used. This classifier is also helpful to predict the outcome of an input when trained properly on the training set. 
+      The dataset taken after feature extraction is divided into training and testing data. 82 percent of the data is used for training the model and 18 percent of the remaining data is used for testing purposes. The results obtained using Decision are remarkable for this research. The accuracy using Decision Tree classifier is 93.13 %. While applying Decision Tree some parameters are handled to obtain this accuracy. The random state is fixed to 0 so that the classifier should take the same data for testing purposes. If each time the classifier takes different data, then it becomes very difficult to get good results and compare them with previously obtained results. Another parameter is criterion as this can be very helpful to achieve good accuracy. Criterion is set to entropy in this research project as calculating it while training the classifier helps to improve the accuracy. Entropy is the disorder in the node.
+      3.6.3 Logistic Regression
+      		The name regression seems to be for continuous variables, but Logistic Regression is mainly used for classification problems. This classifier works the best when the target variable is categorical. Usually, this method is used for binary classification problems in Machine Learning. The mathematics behind Logistic Regression is explained in the below figure. Logistic Regression is used in this research project as the project tries to resolve a classification problem.
+      3.6.4 Random Forest
+      		Random Forest can be used for both regression and classification problems. In this research project this algorithm is used along with some parameter tunning. The total instances in the dataset are 1050 and out of which 30 percent of the data is used for testing purposes and the remaining data is used for training purpose. This is a conventional supervised classifier used for classification purposes. Random Forest usually gives the best results even when it is used without parameter tunning.
+      3.6.5 Naïve Bayes
+      		Naïve Bayes is also a supervised Machine Learning algorithm used to solve classification problems. It works based on the Bayes theorem. This classifier assumes that all the input values are independent, though in real life this does not work the best. Still this classifier is widely used for classification purposes due to its effective methodology.
+      3.6.6 K-Means
+      		K-Means is a clustering technique which is used for both classification and regression problems. This is an unsupervised technique in which the algorithm is not trained using the labelled data. As mentioned earlier this is a clustering method where the algorithms take the input data and then make clusters of a similar type. The tested data is compared to the clusters and classifies the new input into one of the clusters. This technique is not the best for binary classification, but it is still tested in this research so that the results will be beneficial for the upcoming research. The number of clusters fixed for this research is two because this is a binary classification.   
+      3.6.7 Support Vector Machine
+      Support Vector Machine is another powerful technique used for classification purposes. This classifier is used to solve both regression and classification problems. In this research project classification classifier is used to classify and identify the healthy and unhealthy images. Support Vector Machine works by drawing a line which can segregate the elements in the dataset into classes. There are two types of SVM classifiers. One is linear SVM which is used when there need to make a straight line to separate two classes. Non-linear SVM is the opposite of linear SVM. The elements in the dataset are classified into the respective class and later used for predicting the outcome. The accuracy obtained using this classifier is 86.08 % which is not bad and not very good. Some parameter tunning has been done to obtain these results. For example, kernel is set to linear as there are two classes and there should be a straight line between the two classes.
+
+	 
+3.6.8 AdaBoost
+		AdaBoost, also known as adaptive boosting, is a famous boosting algorithm which is widely used for classification purposes. In this research project a variety of classifiers are used ranging from supervised, unsupervised to boosting algorithms. The purpose behind testing all these algorithms to find out which algorithm works best for classification purposes. This classifier is usually used with other machine learning algorithms to produce good results. 
+3.6.9 LightGBM
+		LightGBM is also known as light gradient-boosting machine. It is one of the finest boosting algorithms. Usually boosting algorithms analyze the predictions and then increase the weight of sample to achieve good accuracy. This boosting technique is built based on decision tree. This boosting technique is mainly used because of its ability to train the model very quickly. 
+3.6.10 Artificial Neural Networks
+		Artificial Neural Networks is a group of networks which works based on the neurons in human brains. These algorithms are based on connected nodes like neurons in the human brain. ANN can be supervised, unsupervised, and reinforcement algorithms. Moreover, ANN can be used for both regression and classification problems. In this research project this technique is used to solve a binary classification problem. Relu and Sigmoid activation functions have been used in the hidden layers and Sigmoid function has been used in the output layer because of binary classification.     
+3.6.11 Convolutional Neural Networks
+Convolutional Neural Networks (CNN) is part of the bigger network known as Artificial Neural Networks. It is a deep leaning technique which is usually applied directly to image data. CNN is very useful and efficient to classify binary as well as multi-class classification of images. Most of the facial recognition techniques are based on CNN. 
+CNN is used in this research project to classify the tomato leaf images into ten classes. In the first layer Relu activation function is used. Later in the middle or in the deep layers SoftMax activation function is used. The optimizer used in this project is Adam. The loss function used is categorical Cross entropy because the three are 10 classes. If the classes are more than two, it is recommended to use categorical Cross entropy. 
+CHAPTER 4: IMPLEMENTATION AND RESULTS/DISCUSSION
+4.1 IMPLEMENTATION SETUP
+		This research project is being done in two parts: binary classification and multi-class classification. The implementation for binary classification was done in HP ProBook 440 G5. Python 3.10.10 installed in Ubuntu system having a processor of Intel(R) Core (TM) i5-82500 CPU @ 1.60GHz – 1.80 GHz. The RAM of the device used in this research project is 32 GB having SSD of 1 TB. The hardware and software specification for this project can be seen in table 4.1. 
+		In this research project many experiments have been done on various datasets to get the maximum results. Different datasets of various lengths have been used such as 400 images, 500 images, 1050 images, 75, 870 images.
+		For binary classification 1050 images have been used. The dataset is gained from Kaggle and then the images are pre-processed and segmented to extract the desired features. Features of each image is stored in a csv file and the labelling is done manually. All the images have been taken randomly. Moreover, features are extracted separately for each channel of RGB images. 14 features for each channel and altogether 42 features have been extracted for each image. Parameter tunning of all the classifiers have been done according to the need. Many parameters have been experimented with to get better results for each classifier. A detailed description for each classifier is given in table 4.2.
+Table 4.1 Details of Parameters for each Classifier
+ClassifierParameters(Training, Testing)AdaBoostDecision Tree Classifier(15, 85) %Decision TreeCriterion = entropy(18, 82) %K-Meansn_clusters = 2(20, 80) %KNNn_neighbors = 1(10, 90) %LightGBMDefault (17, 83) %Logistic RegressionRandom_state = 0(30, 70) %Naïve BayesDefault(30, 70) %Random ForestDefault(30, 70) %SVMKernel = linear(30, 70) %ANNRelu and Sigmoid(30, 70) %CNNRelu, SoftMaxEpochs = 200
+
+
+
+Table 4. 1: Specifications of the hardware and software
+ComponentDescriptionHardwareMachineHP ProBook 440 G5Operating SystemUbuntu 22.04CPUIntel(R) Core (TM) i5-82500 CPU @ 1.60GHz – 1.80 GHzRAM16 GB DDR4
+Software ToolsJupyter Notebook and Visual Studio CodeJupyter Notebook is good for visualization.
+LanguagesPythonPython version 3.10.10. For Interface JavaScript, HTML and CSS is used.JavaScriptHTMLCSS
+FrameworkTensorFlowTensorFlow is Machine Learning framework.DjangoDjango is used for making interface.
+LibrariesNumPyNumPy is to deal arrays or matrices and images are matrices.KerasKeras is open-source free library for deep learning.SciPySciPy is open source and free library for scientific computation.
+
+4.2 Results and Discussions
+		In this research project more than 11 different algorithms have been applied. The applied Machine Learning algorithms belong to both supervised and unsupervised categories. In addition, boosting algorithms have also been applied to get the best results. Table 4.2 shows the results for all the algorithms.
+Table 4. 2: accuracies of all the algorithms
+ClassifierAccuracyAdaBoost96.84 %Decision Tree93.12 %K-Means54.76 %KNN96.19 %LightGBM96.65 %Logistic Regression86.08 %Naïve Bayes69.23 %Random Forest96.83 %SVM86.08 %ANN86.08 %CNNBinary: 99.84 %
+Multi: 85.41 %		It can be seen from the above table that most accuracies are good such as CNN, AdaBoost, Decision Tree etc have an accuracy of more than 90 percent which is the best. After careful evaluation the best model chosen with best accuracy is CNN which has an accuracy of 99.84 %. Accuracy is one of ways to know how well a Machine Learning performs. Accuracy is defined as the number of correctly predicted values divided by all the values. There are other accuracy metrics which show how good a classifier performs. For instance, recall is defined as sensitivity. Precision number of true positives divided by all the true positive values. F1 score is harmonic average of recall and precision. Below are the equations for accuracy, precision, recall, and f1-score.  All these performance metrics and confusion metrics are calculated based on True Positive, False Positive, True Negative, and False Negative values. Definitions of the mentioned terms are below.
+		True Positive are the values which are correctly identified which means predicted correctly the positive class.
+		False Positives are the values which are incorrectly identified which means predicted incorrectly the positive class.
+		True Negatives are the values which are correctly identified which means predicted correctly the negative class.
+		False Negatives are the values which are incorrectly identified which means predicted incorrectly the negative class. 
+
+Accuracy=(True Negatives+True Positives)/(Whole sample)
+Recall=(True Positives)/(True Positives+Faslse Negatives)
+Precision=(True Positives)/(True Positives+False Positives)
+F1-Score=(2×(Recall ×Precision))/(Recall+Precision)
+
+		The confusion matrix evaluation for all the classifiers is a necessary step which shows how well a classifier is performing. Table 4.3 shows the values for predicted and actual instances. Confusion matrices for all the algorithms will be based on table 4.3. The values will be assigned in the same place shown in this table.
+Table 4. 1: accuracies of all the algorithms
+True Positive False NegativeFalse PositiveTrue Negative 
+4.2.1 Results and Discussion for AdaBoost
+		Confusion matrix is a way to measure the performance of a classification algorithm. Figure 4.2.1 shows the confusion matrix for AdaBoost, where it is visible that there is a total of 158 instances in testing dataset. Out of which 71 are True Positive which means 71 values are correctly predicted for unhealthy class which in our case is denoted by 1. 82 values are True Negative which means 82 values are correctly predicted as healthy which in our case is denoted by 0. 5 values classified as False Positive which means they are predicted incorrectly. No values are classified as False Negatives. 
+
+Figure 4.2.1.1: Confusion matrix for AdaBoost
+		Figure 4.2.2 shows performance matrices such as accuracy, precision, recall, and f1-score for AdaBoost.
+
+Figure 4.2.1.2: Performance matrix for AdaBoost
+4.2.2 Results and Discussion for ANN
+		Confusion matrix is a way to measure the performance of a Machine Learning algorithm. Though ANN did not perform very well in this research, still its accuracy is good. In the figure 4.2.2.1 there are total 309 instances in the testing set out of which 266 are True Negative which means 266 images are correctly identified as healthy. 43 images are identified as False positive which means incorrectly predicted unhealthy images.
+
+Figure 4.2.2.1: Confusion matrix for ANN
+		Figure 4.2.2.2 shows the performance matrices for ANN. 
+
+Figure 4.2.2.2: Performance matrix for ANN
+4.2.3 Results and Discussion for Decision Tree
+		Figure 4.2.3.1 shows the confusion matrix for Decision Tree, where it can be seen that there are total 189 images in test size. Out of which 82 are True Positive which means that 82 images have been correctly classified as unhealthy images. 94 images have been classified as True Negative which means they are correctly predicted as healthy. 13 images have been classified as False Negative which means they have been incorrectly predicted as healthy. 
+
+Figure 4.2.3.1: Confusion matrix for Decision Tree
+		Figure 4.2.3.2 shows performance matrices such as accuracy, precision, recall, and f1-score for Decision Tree.
+
+Figure 4.2.3.2: Performance matrix for Decision Tree
+4.2.4 Results and Discussion for KMeans
+		Figure 4.2.4.1 shows the confusion matrix for KMeans. There are a total of 210 images in the test dataset. Out of which 6 are correctly predicted as unhealthy images and 109 are correctly predicted as healthy images. 12 images are classified as False Negative which means they have been incorrectly classified as healthy. 83 images have been predicted as False Positive which means. 
+
+Figure 4.2.4.1: Confusion matrix for KMeans
+		Figure 4.2.4.2 shows performance matrices for KMeans.
+
+Figure 4.2.4.2: Performance matrix for KMeans
+4.2.5 Results and Discussion for KNN
+		Figure 4.2.5.1 shows the confusion matrix for KNN where there is a total of 105 images in the testing group. Out of which 46 images have been correctly classified as True Positive which means 46 images have been correctly classified as unhealthy. 55 images have correctly predicted as healthy. Only 4 images have been incorrectly classified as healthy.
+
+Figure 4.2.5.1: Confusion matrix for KNN
+		Figure 4.2.5.2 shows the performance matrices for KNN.
+
+Figure 4.2.5.2: Performance matrix for KNN
+4.2.6 Results and Discussion for LightGBM
+		Figure 4.2.6.1 shows the confusion matrix for LightGBM where there are 179 images in the testing set, out of which 79 images have been correctly predicted as unhealthy. 94 images have been correctly classified as healthy. Only 6 images have been incorrectly classified as healthy. 
+
+Figure 4.2.6.1: Confusion matrix for LightGBM
+		Figure 4.2.6.2 shows the performance matrices for LightGBM.
+
+Figure 4.2.6.2: Performance matrix for LightGBM
+4.2.7 Results and Discussion for Logistic Regression
+		Figure 4.2.7.1 shows the confusion matrix for Logistic Regression where there are a total 309 images in the testing set. Out of which 266 images have been correctly classified as healthy. 43 images have been incorrectly classified as unhealthy.
+
+Figure 4.2.7.1: Confusion matrix for Logistic Regression
+	Figure 4.2.7.2 shows the performance matrix for Logistic Regression.
+
+Figure 4.2.7.2: Performance matrix for Logistic Regression
+4.2.8 Results and Discussion for Naïve Bayes
+		Figure 4.2.8.1 shows the confusion matrix for Naïve Bayes where there are total 312 images in the testing dataset. Out of which 210 images have been correctly classified as healthy and 6 images have been correctly predicted as unhealthy. 32 images have been incorrectly predicted as healthy and 64 images have been incorrectly classified as unhealthy.
+
+Figure 4.2.8.1: Confusion matrix for Naïve Bayes 
+		Figure 4.2.8.2 shows the performance matrix for Naïve Bayes.
+
+Figure 4.2.8.2: Performance matrix for Naïve Bayes
+4.2.9 Results and Discussion for Random Forest
+		Figure 4.2.9.1 shows the confusion matrix for Random Forest where there are total 315 images in the testing set. Out of which 125 images have been classified correctly as unhealthy and 180 images have been correctly classified as healthy. Only 4 images have been incorrectly classified as healthy and only 6 images have been incorrectly classified as unhealthy. 
+
+Figure 4.2.9.1: Confusion matrix for Random Forest
+		Figure 4.2.9.2 shows the performance matrices for Random Forest.
+
+Figure 4.2.9.2: Performance matrix for Random Forest
+4.2.10 Results and Discussion for SVM
+		Figure 4.2.10.1 shows the confusion matrix for SVM where there are a total 309 images in the testing set. Out of which 266 images have been correctly classified as healthy. 43 images have been incorrectly classified as unhealthy. 
+
+Figure 4.2.10.1: Confusion matrix for SVM
+		Figure 4.2.10.2 shows the performance matrices for SVM which include accuracy, precision. 
+
+Figure 4.2.10.2: Performance matrix for SVM
+4.3 Ranking of Classifiers
+		As we have found the accuracies of all the 11 algorithms, now it lets have a visual representation of accuracies of all the classifiers in ascending order. Figure 4.3.1 show the ranking.
+
+Figure 4.3.1: Ranking of accuracies of all algorithms.
+4.4 Web Application
+		A simple and efficient web application has been designed and developed for the tomato diseases classification. The application is very user friendly and simple. It is developed using Django framework as long with JavaScript, HTML, and CSS. The home page of the application looks something as shown in the figure 4.4.1.
+CHAPTER 05: CONCLUSION
+		In the proposed methodology, many Image Processing and Machine Learning techniques have been used to prepare and predict an image into binary and multi-class classification. The research work has focused on both binary and multiclass classification tomato leaf diseases. The diseases identification has been a long journey starting from image pre-processing to classification. In pre-processing many filters such as mean filter, median filter, min filter, and max filters have been applied to reduce salt and pepper noise from the images. For feature scaling techniques like standardization and normalization have been used. For image enhancement inverse and log transformation have been used to enhance the quality of an image. Moreover, image segmentation has been done using Otsu segmentation technique and then features have been extracted from each image using GLCM technique. Then the features are stored along with the labeling in a comma separated file.
+		Extracted features in the csv file have been used to classify the disease in the image of tomato leaves. Many Machine Learning algorithms have been applied such as Convolutional Neural Network, AdaBoost, Random Forest, LightGBM, K-Nearest Neighbor, Decision Tree, Logistic Regression, Support Vector Machine, Artificial Neural Network, Naïve Bayes, and KMeans. These algorithms belong to both supervised and unsupervised Machine Learning algorithms. After trail and error techniques this methodology proposes CNN to be the best algorithm for binary classification with an accuracy of 99.84 %. Followed by AdaBoost, Random Forest, and LightGBM. For multiclass classification CNN did not perform the best as it gave an accuracy of 85.41 %.
+		For future work especially for multi-class classification one can consider many points. For example, the number of images should be very large, like in hundred thousand. Moreover, there should be a very good CPU and GPU having a large number of cores to train enormous number of images. Furthermore, the quality of images be very good as it is having a lot of impact on the results. In this study the dataset had some images which were blurred due to the accuracy for multi-class classification is not good.
+		We have developed a simple interface for this project which classifies tomato diseases. It is a web application, and it is highly recommended to develop a mobile app as it is easier and feasible to use by framers and other people. 	 
+
+		
+
+
+3.7 SIMILAR APPLICATION COMPARISON TABLE
+	
+ResearchersYearSegmentation TechniquesFeature Extraction TechniquesClassifierDatasetDiseaseAccuracyRahman et al.2021Otsu methodGLCMSVM400 images.Healthy and three diseases100%, 95%, 90%, 85%Sarojadevi and Nagamani2022Image Scaling, Color Thresholding, Flood Filling Approaches GLTP, Zernike MomentsR-CNN735 imagesOne healthy and six different diseases96.735%Chowdhury et al.2021--ResNet18, MobileNet, DenseNet201, InceptionV318,162 imagesOne healthy, and nine different diseases  99.2%, 97.99%, 98.05%Gadade and Kirange2020-GLCM, Gabor, SURFSVM, KNN, Naïve Bayes, Decision Tree500 imagesOne healthy and seven various kinds of diseases73.39%Dr. Sreelatha et al.2021-GLCMLSTM, DNN, ANN1500 images-98.81%Trivedi et al.2021--CNN3000 imagesOne healthy and nine various diseases 98.49%Shoaib et al.2022U-Net architecture, K-Fold cross validation-CNN, U-Net, Modified U-Net18,161 imagesOne healthy and nine different kinds of diseases98.66%, 99.12%Khasawnch, Faouri, and Fraiwan2022--CNN, Deep Learning Networks18,160 imagesOne healthy and nine various diseases99.4%Arfan Shah2023Otsu MethodGLCM, GaborRandom Forest, KNN, Decision Tree and moreMore than 2000One healthy and nine diseases>99%
+	
+3.8 NOVELTY OF THIS RESEARCH
+	No previous research is found which is specifically focusing on tomato leaf disease detection in the mountainous regions of Gilgit-Baltistan, Kyrgyzstan, and Tajikistan. The pathogens which cause diseases in tomatoes are usually favored by cool and wet weather. In mountainous areas the weather is usually cool which encourages tomato disease (Meadows and Quesada-Ocampo, 2019). Hopefully this will be the first research which is focusing on tomato leaf disease detection in the mentioned areas and that is the novelty of this research. In addition, previous studies either used one, two, or three Machine Learning algorithms for classification purposes, but this research aims to apply more than five algorithms and compare their results and chose the one which performs the best. This study aims to follow specific stages, such as pre-processing, image segmentation, feature extraction etc. On the other hand, all these stages are not used at once in the previous studies. Furthermore, previous research uses one or no technique for these stages, but this study aims to use multiple techniques for each stage. Moreover, there is not any mobile app or web facility for common farmers in Gilgit-Baltistan, Tajikistan, and Kyrgyzstan which can help to identify the disease and suggest a remedy for the disease. In the future, hopefully this research will help the farmers in the mountainous regions to enhance their fruit and vegetables production.
+	
+Reference:
+
+1.	Imam, S. (March 09, 2022). Friday Times. Malnutrition in Pakistan-Searching for Solutions. Retrieved from https://www.thefridaytimes.com/2022/03/09/malnutrition-in-pakistan-searching-for-solutions/ 
+2.	Kopytin, Y. (June 25, 2022). 24KG. 12 percent of children in Kyrgyzstan are stunted due to malnutrition. Retrieved from https://24.kg/english/238122_12_percent_of_children_in_Kyrgyzstan_are_stunted_due_to_malnutrition/ 
+3.	Ruziev, M. (2019). UNICEF Tajikistan. Nutrition. Retrieved from https://www.unicef.org/tajikistan/nutrition 
+4.	Rahman, S. U., Alam, F., Ahmad, N., & Arshad, S. (2022). Image processing-based system for the detection, identification and treatment of tomato leaf diseases. Multimedia Tools and Applications, 1-15.
+5.	Nagamani, H. S., & Sarojadevi, H. (2022). Tomato Leaf Disease Detection using Deep Learning Techniques. International Journal of Advanced Computer Science and Applications, 13(1).
+6.	Chowdhury, M. E., Rahman, T., Khandakar, A., Ibtehaz, N., Khan, A. U., Khan, M. S., ... & Ali, S. H. M. (2021). Tomato Leaf Diseases Detection Using Deep Learning Technique. Technology in Agriculture, 453.
+7.	Gadade, H. D., & Kirange, D. D. (2020). Machine Learning Approach towards Tomato Leaf Disease Classification. International Journal of Advanced Trends in Computer Science and Engineering, 9(1), 490-495.
+8.	Sreelatha, P., Udayakumar, M. S., Karthick, S., Ch, S. C., Kavya, K. C. S., & Madiajagan, M. (2021). Managing The Tomato Leaf Disease Detection Accuracy Using Computer Vision Based Deep Neural Network. Journal of Contemporary Issues in Business and Government Vol, 27(1).
+9.	Trivedi, N. K., Gautam, V., Anand, A., Aljahdali, H. M., Villar, S. G., Anand, D., ... & Kadry, S. (2021). Early detection and classification of tomato leaf disease using high-performance deep neural network. Sensors, 21(23), 7987.
+10.	Shoaib, M., Hussain, T., Shah, B., Ullah, I., Shah, S. M., Ali, F., & Park, S. H. (2022). Deep learning-based segmentation and classification of leaf images for detection of tomato plant disease. Frontiers in Plant Science, 13, 1031748.
+11.	Khasawneh, N., Faouri, E., & Fraiwan, M. (2022). Automatic Detection of Tomato Diseases Using Deep Transfer Learning. Applied Sciences, 12(17), 8467.
+12.	Mohanty, S. P., Hughes, D. P., & Salathé, M. (2016). Using deep learning for image-based plant disease detection. Frontiers in plant science, 7, 1419.
+13.	Geetha, G., Samundeswari, S., Saranya, G., Meenakshi, K., & Nithya, M. (2020, December). Plant leaf disease classification and detection system using machine learning. In Journal of Physics: Conference Series (Vol. 1712, No. 1, p. 012012). IOP Publishing.
+14.	Eunice, J., Popescu, D. E., Chowdary, M. K., & Hemanth, J. (2022). Deep Learning-Based Leaf Disease Detection in Crops Using Images for Agricultural Applications. Agronomy, 12(10), 2395.
+15.	Kulkarni, P., Karwande, A., Kolhe, T., Kamble, S., Joshi, A., & Wyawahare, M. (2021). Plant disease detection using image processing and machine learning. arXiv preprint arXiv:2106.10698.
+16.	Meadows, I., Quesada-Ocampo, L. (January 17, 2019). NC State Extension. Tomato Late Blight: Vegetable Pathology Factsheets. Retrieved from https://content.ces.ncsu.edu/tomato-late-blight.
+
+
