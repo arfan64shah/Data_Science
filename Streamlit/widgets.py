@@ -19,3 +19,7 @@ st.select_slider("Ratings: ", ['Bad', 'Good', 'Very Good', 'Excellent'])
 
 # slider
 st.slider('Slider:', 0, 10)
+
+# pick a number
+st.number_input("Select number: ", 1, 100)
+
